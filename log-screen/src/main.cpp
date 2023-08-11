@@ -9,6 +9,7 @@ void ShowUsage()
 
 void TurnOffListener(int sig)
 {
+    std::cout << "\nexiting..." << std::endl;
     SeaDrip::LogScreen::Listener::GetInstance()->TurnOff();
 }
 
@@ -38,5 +39,6 @@ int main(const int argc, char** argv)
     signal(SIGUSR1, TurnOffListener);
     int run_status = static_cast<int>(engine->Run());
     engine->Release();
+    std::cout << "Bye~" << std::endl;
     return run_status;
 }

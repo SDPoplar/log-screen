@@ -1,4 +1,5 @@
 log-screen/build/
+log-screen/test/tlog
 
 # vscode
 .vscode/

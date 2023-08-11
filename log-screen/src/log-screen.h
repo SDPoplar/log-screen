@@ -9,6 +9,31 @@ namespace SeaDrip::LogScreen
     {
         int port;
     } Config;
+
+    enum class LogLevel : int
+    {
+        EMPTY = -1,
+
+        INFO = 0,
+        WARNING = 1,
+        ERROR = 2,
+    };
+
+    class LogItem
+    {
+    public:
+        static LogItem FromLevelString(const std::string& level, const std::string& content);
+
+        LogItem(const LogLevel level, const std::string& content);
+        const std::string GetLogContent() const;
+        const LogLevel GetLogLevel() const;
+
+        const std::string vendor() const;
+
+    protected:
+        LogLevel m_e_level;
+        std::string m_s_content;
+    };
     
     class Listener
     {
@@ -27,6 +52,8 @@ namespace SeaDrip::LogScreen
 
     protected:
         Listener();
+        const bool OnLog(const int res_fd);
+        const bool OnCommand(const int res_fd);
 
     private:
         static Listener* g_p_ins;
