@@ -2,7 +2,6 @@
 #define __SD_LOG_SCREEN_H__
 
 #include "run-code.h"
-#include "port-socket.h"
 
 namespace SeaDrip::LogScreen
 {
@@ -14,24 +13,28 @@ namespace SeaDrip::LogScreen
     class Listener
     {
     public:
-        Listener();
+        static Listener* GetInstance();
 
         Config& GetConfig();
 
+        void Init() throw();
         const RunCode Run();
+        const bool OnSocketCanAccept(const int got_fd);
         void Release();
 
+        const bool IsRunning() const;
         void TurnOff();
 
     protected:
-        const RunCode init();
-
-        Config cfg;
+        Listener();
 
     private:
+        static Listener* g_p_ins;
+
+        Config m_comp_config;
         bool m_b_switch;
-        PortSocket* m_comp_sock;
-        int m_n_epoll_fd;
+        class PortSocket* m_comp_sock;
+        class EpollComponent* m_comp_epoll;
     };
 }
 
